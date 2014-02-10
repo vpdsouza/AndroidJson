@@ -13,6 +13,5 @@
 			<accessrule kind="nonaccessible" pattern="com/android/internal/**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/My Documents/Development/google-gson-2.2.4"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

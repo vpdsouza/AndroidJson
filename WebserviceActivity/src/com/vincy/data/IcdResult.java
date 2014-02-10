@@ -1,4 +1,4 @@
-package data;
+package com.vincy.data;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,4 +1,4 @@
-package parameters;
+package com.vincy.parameters;
 
 public class IcdSearch {
 
