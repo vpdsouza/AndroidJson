@@ -18,7 +18,7 @@ public class WebserviceActivity extends Activity
 {
 	private String TAG = "VincyJson";
 
-	ProgressBar pg;
+	ProgressBar progressBar;
 	IcdResult icdResult;
 
 	public void onCreate(Bundle savedInstanceState)
@@ -26,7 +26,7 @@ public class WebserviceActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		pg = (ProgressBar) findViewById(R.id.progressBar1);
+		progressBar = (ProgressBar) findViewById(R.id.progressBar1);
 
 		// AysnTask class to handle Json Web Service call as separate Thread
 		AsyncJsonCall task = new AsyncJsonCall();
@@ -60,7 +60,7 @@ public class WebserviceActivity extends Activity
 			listView1.setAdapter(adapter);
 
 			// Make the progress bar invisible
-			pg.setVisibility(View.INVISIBLE);
+			progressBar.setVisibility(View.INVISIBLE);
 		}
 
 		@Override
@@ -68,7 +68,7 @@ public class WebserviceActivity extends Activity
 		{
 			Log.i(TAG, "onPreExecute");
 			// Display progress bar
-			pg.setVisibility(View.VISIBLE);
+			progressBar.setVisibility(View.VISIBLE);
 		}
 
 		@Override

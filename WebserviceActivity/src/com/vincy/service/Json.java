@@ -20,44 +20,48 @@ import com.vincy.parameters.IcdSearch;
 public class Json
 {
 	// Change IP to your machine IP
-	private final static String URL = "http://10.0.1.116/MobileServices/v2.3.4/IMBillsMobileService.asmx/GetInitialIcdBySearch";
+	private final static String webServiceUrl = "http://10.0.1.116/MobileServices/v2.3.4/IMBillsMobileService.asmx/GetInitialIcdBySearch";
 
 	// Method which invoke web methods
-	private static String invokeJSONWS()
+	private static String invokeJsonWebService()
 	{
 
 		String jsonRespone = "";
-		HttpClient client = new DefaultHttpClient();
-		String responseBody = "";
-		new JSONObject();
+		HttpClient httpClient = new DefaultHttpClient();
+		String httpResponse = "";
 
 		try
 		{
-			HttpPost post = new HttpPost(URL);
+			HttpPost httpPost = new HttpPost(webServiceUrl);
 
 			Gson gson = new Gson();
 			String parameter = gson.toJson(new IcdSearch());
 
-			StringEntity se = new StringEntity(parameter);
-			se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+			//Create the json parameter to invoke the web service method
+			StringEntity stringEntity = new StringEntity(parameter);
+			stringEntity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
 
-			post.setEntity(se);
-			post.setHeader(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-			post.setHeader("Content-type", "application/json");
+			httpPost.setEntity(stringEntity);
+
+//			httpPost.setHeader(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+			httpPost.setHeader("Content-type", "application/json");
 			Log.e("webservice request", "executing");
 
 			ResponseHandler<String> responseHandler = new BasicResponseHandler();
-			responseBody = client.execute(post, responseHandler);
+			httpResponse = httpClient.execute(httpPost, responseHandler);
 
-			JSONObject jsonObject = (JSONObject) new JSONTokener(responseBody).nextValue();
+			/**Since the Asp.Net web service is wrapping the json string within the [d] object, 
+			***remove the wrapper and get the valid json from the response string.
+			**/
+			JSONObject jsonObject = (JSONObject) new JSONTokener(httpResponse).nextValue();
 
 			String jsonString = jsonObject.getString("d");
 
 			jsonRespone = jsonString;
 
-		} catch (Exception e)
+		} catch (Exception exception)
 		{
-			e.printStackTrace();
+			exception.printStackTrace();
 		}
 		return jsonRespone;
 
@@ -65,7 +69,7 @@ public class Json
 	
 	public static IcdResult getIcdResultFromWebService()
 	{
-		String jsonResponse = invokeJSONWS();
+		String jsonResponse = invokeJsonWebService();
 		Gson gson = new Gson();
 		
 		IcdResult icdResult = gson.fromJson(jsonResponse, IcdResult.class);
